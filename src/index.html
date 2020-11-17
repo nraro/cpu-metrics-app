@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>CPU nRonitor</title>
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body>
+    <div class="box">
+      <span class="label">CPU (%)</span>
+      <span id="cpu">-</span>
+    </div>
+    <div class="box">
+      <span class="label">CPU Temp</span>
+      <span id="cpu-temp">-</span>
+    </div>
+    <div class="box">
+      <span class="label">Free Mem (%)</span>
+      <span id="mem">-</span>
+    </div>
+    <div class="box">
+      <span class="label">Total Mem (GB)</span>
+      <span id="total-mem">-</span>
+    </div>
+    <script>
+      // Import electron and ipcRenderer
+      const electron = require('electron');
+      const ipcRenderer = electron.ipcRenderer;
+
+      ipcRenderer.on('cpu', (event, data) => {
+        document.querySelector('#cpu').innerHTML = data.toFixed(2);
+      });
+      ipcRenderer.on('cpu-temp', (event, data) => {
+        console.log(data);
+        document.querySelector('#cpu-temp').innerHTML = data.main.toFixed(2);
+      });
+      ipcRenderer.on('mem', (event, data) => {
+        document.querySelector('#mem').innerHTML = data.toFixed(2);
+      });
+      ipcRenderer.on('total-mem', (event, data) => {
+        document.querySelector('#total-mem').innerHTML = data.toFixed(2);
+      });
+    </script>
+  </body>
+</html>
